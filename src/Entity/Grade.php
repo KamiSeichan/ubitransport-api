@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GradeRepository::class)
@@ -26,11 +27,13 @@ class Grade
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"get_grade"})
      */
     private string $subject;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"get_grade"})
      */
     private float $value;
 

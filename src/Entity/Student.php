@@ -7,9 +7,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=StudentRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
  */
 class Student
 {
@@ -17,28 +18,49 @@ class Student
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get_student"})
      */
     private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"get_student"})
      */
     private string $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups({"get_student"})
      */
     private string $firstname;
 
     /**
      * @ORM\Column(type="date_immutable", nullable=true)
+     * @Groups({"get_student"})
      */
     private ?\DateTimeImmutable $birthdayDate;
 
     /**
      * @ORM\OneToMany(targetEntity="Grade", mappedBy="student", cascade={"remove"})
+     * @Groups({"get_student"})
      */
     private Collection $grades;
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getGrades()
+    {
+        return $this->grades;
+    }
+
+    /**
+     * @param ArrayCollection|Collection $grades
+     */
+    public function setGrades($grades): void
+    {
+        $this->grades = $grades;
+    }
 
     /**
      * Student constructor.

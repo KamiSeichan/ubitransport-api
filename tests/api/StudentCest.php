@@ -22,8 +22,10 @@ class StudentCest
     public function testListStudent(\ApiTester $I) {
 
         $I->wantTo('Check this list of student');
-        $I->sendGET('/api/students');
+        $I->sendGET('/students');
         $I->seeResponseIsJson();
         $I->seeResponseCodeIs(Response::HTTP_OK);
+        $I->assertCount(2, json_decode($I->grabResponse()));
+
     }
 }
