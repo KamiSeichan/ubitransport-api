@@ -49,6 +49,12 @@ class StudentService
         return $student;
     }
 
+    /**
+     * @param Request $request
+     * @param Student $student
+     * @return Student
+     * @throws \Exception
+     */
     public function update(Request $request, Student $student): Student
     {
         $student->setLastname($request->get('lastname'))
@@ -56,5 +62,14 @@ class StudentService
             ->setBirthdayDate(new \DateTimeImmutable($request->get('birthday')));
 
         return $student;
+    }
+
+    /**
+     * @param Student $student
+     */
+    public function delete(Student $student): void
+    {
+        $this->entityManager->remove($student);
+        $this->entityManager->flush();
     }
 }

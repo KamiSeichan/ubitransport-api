@@ -177,4 +177,11 @@ class StudentCest
         $I->seeResponseIsJson();
         $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
+
+    public function removeStudent(\ApiTester $I)
+    {
+        $I->wantToTest("remove a student from database");
+        $I->sendDelete('/students/1');
+        $I->seeResponseCodeIs(Response::HTTP_NO_CONTENT);
+    }
 }

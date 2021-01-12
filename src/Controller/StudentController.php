@@ -117,7 +117,7 @@ class StudentController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function put(Student $student, Request $request, ValidatorInterface $validator)
+    public function put(Student $student, Request $request, ValidatorInterface $validator): JsonResponse
     {
         $student = $this->studentService->update($request, $student);
 
@@ -133,6 +133,20 @@ class StudentController extends AbstractController
         }
 
         $this->entityManager->flush();
+
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     * @Route("/{id}", name="item_delete", methods={"DELETE"})
+     *
+     * @param Student $student
+     * @return JsonResponse
+     */
+    public function delete(Student $student, UrlGeneratorInterface $urlGenerator): JsonResponse
+    {
+        $this->studentService->delete($student);
 
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
