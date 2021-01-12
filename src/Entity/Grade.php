@@ -6,9 +6,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=GradeRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\GradeRepository")
  */
 class Grade
 {
@@ -22,11 +23,14 @@ class Grade
     /**
      * @ORM\ManyToOne(targetEntity="Student", inversedBy="grades")
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
+     * @Assert\Type("App\Entity\Student")
      */
     private Student $student;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Assert\Length(min=4)
      * @Groups({"get_grade"})
      */
     private string $subject;

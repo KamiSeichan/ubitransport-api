@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Tests\api;
 
+use App\Entity\Grade;
 use App\Entity\Student;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -183,5 +184,24 @@ class StudentCest
         $I->wantToTest("remove a student from database");
         $I->sendDelete('/students/1');
         $I->seeResponseCodeIs(Response::HTTP_NO_CONTENT);
+    }
+
+    public function addGradeStudent(\ApiTester $I)
+    {
+        $I->wantTo("add a grade to a student");
+
+        $I->sendPOST('/students/1/grade', [
+            'subject' => 'mathapitest',
+            'value' => '14',
+        ]);
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_CREATED);
+
+        $I->seeResponseContainsJson([
+            'subject' => 'mathapitest',
+        ]);
+
+        $I->canSeeInRepository(Grade::class, ['subject' => 'mathapitest', 'value' => '14']);
     }
 }

@@ -144,10 +144,50 @@ class StudentController extends AbstractController
      * @param Student $student
      * @return JsonResponse
      */
-    public function delete(Student $student, UrlGeneratorInterface $urlGenerator): JsonResponse
+    public function delete(Student $student): JsonResponse
     {
         $this->studentService->delete($student);
 
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     * @Route("/{id}/grade", name="item_student_rade_post", methods={"POST"})
+     *
+     * @return JsonResponse
+     */
+    public function addGrade(
+        Student $student,
+        Request $request,
+        UrlGeneratorInterface $urlGenerator,
+        ValidatorInterface $validator
+    ): JsonResponse {
+        $grade = $this->studentService->addGrade($request, $student);
+
+        $errors = $validator->validate($grade);
+
+        if ($errors->count() > 0) {
+            return new JsonResponse(
+                $this->serializer->serialize($errors, 'json'),
+                JsonResponse::HTTP_BAD_REQUEST,
+                [],
+                true
+            );
+        }
+
+        $this->entityManager->persist($grade);
+        $this->entityManager->flush();
+
+        return new JsonResponse(
+            $this->serializer->serialize(
+                $this->studentService->addGrade($request, $student),
+                "json",
+                ["groups" => ["get_student", "get_grade"]]
+            ),
+            JsonResponse::HTTP_CREATED,
+            ["Location" => $urlGenerator->generate("api_student_collection_get")],
+            true
+        );
     }
 }

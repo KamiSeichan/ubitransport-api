@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Grade;
 use App\Entity\Student;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,5 +72,20 @@ class StudentService
     {
         $this->entityManager->remove($student);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @param Request $request
+     * @param Student $student
+     * @return Student
+     */
+    public function addGrade(Request $request, Student $student): Grade
+    {
+        $grade = (new Grade())
+            ->setSubject($request->get('subject'))
+            ->setValue(floatval($request->get('value')))
+            ->setStudent($student);
+
+        return $grade;
     }
 }
