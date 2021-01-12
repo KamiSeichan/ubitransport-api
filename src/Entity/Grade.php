@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -32,16 +34,26 @@ class Grade
      */
     private float $value;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return Student
+     */
     public function getStudent(): Student
     {
         return $this->student;
     }
 
+    /**
+     * @param Student $student
+     * @return $this
+     */
     public function setStudent(Student $student): self
     {
         $this->student = $student;
@@ -49,11 +61,18 @@ class Grade
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getSubject(): string
     {
         return $this->subject;
     }
 
+    /**
+     * @param string $subject
+     * @return $this
+     */
     public function setSubject(string $subject): self
     {
         $this->subject = $subject;
@@ -61,11 +80,18 @@ class Grade
         return $this;
     }
 
+    /**
+     * @return float
+     */
     public function getValue(): float
     {
         return $this->value;
     }
 
+    /**
+     * @param float $value
+     * @return $this
+     */
     public function setValue(float $value): self
     {
         $this->value = $value;

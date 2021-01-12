@@ -40,20 +40,33 @@ class Student
      */
     private Collection $grades;
 
+    /**
+     * Student constructor.
+     */
     public function __construct() {
         $this->grades = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getLastname(): string
     {
         return $this->lastname;
     }
 
+    /**
+     * @param string $lastname
+     * @return $this
+     */
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -61,11 +74,18 @@ class Student
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstname(): string
     {
         return $this->firstname;
     }
 
+    /**
+     * @param string $firstname
+     * @return $this
+     */
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
@@ -73,11 +93,18 @@ class Student
         return $this;
     }
 
+    /**
+     * @return \DateTimeImmutable|null
+     */
     public function getBirthdayDate(): ?\DateTimeImmutable
     {
         return $this->birthdayDate;
     }
 
+    /**
+     * @param \DateTimeImmutable|null $birthdayDate
+     * @return $this
+     */
     public function setBirthdayDate(?\DateTimeImmutable $birthdayDate): self
     {
         $this->birthdayDate = $birthdayDate;
