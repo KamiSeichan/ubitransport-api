@@ -18,7 +18,7 @@ class StudentFixtures extends Fixture implements OrderedFixtureInterface
      */
     private StudentHelpers $studentHelpers;
 
-    qpublic function __construct(StudentHelpers $studentHelpers)
+    public function __construct(StudentHelpers $studentHelpers)
     {
         $this->studentHelpers = $studentHelpers;
     }
