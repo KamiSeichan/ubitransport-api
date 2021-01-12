@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-
 use App\DataFixtures\Helpers\GradeHelpers;
 use App\DataFixtures\Helpers\StudentHelpers;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -34,7 +33,6 @@ class GradeFixtures extends Fixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $objectManager)
     {
-
         $student1 = $this->getReference('student1');
         $student2 = $this->getReference('student2');
 

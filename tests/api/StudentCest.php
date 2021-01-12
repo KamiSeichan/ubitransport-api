@@ -5,27 +5,176 @@ declare(strict_types=1);
 
 namespace App\Tests\api;
 
-
+use App\Entity\Student;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentCest
 {
-    public function _before(\ApiTester $I)
+    public function testListStudent(\ApiTester $I)
     {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-    }
-
-    public function _after(\ApiTester $I)
-    {
-    }
-
-    public function testListStudent(\ApiTester $I) {
-
         $I->wantTo('Check this list of student');
         $I->sendGET('/students');
         $I->seeResponseIsJson();
         $I->seeResponseCodeIs(Response::HTTP_OK);
         $I->assertCount(2, json_decode($I->grabResponse()));
+    }
 
+    public function testCreateSuccess(\ApiTester $I)
+    {
+        $I->wantToTest("The creation of a student and it success");
+        $I->sendPost(
+            '/students',
+            [
+                'lastname' => 'apitest lastname',
+                'firstname' => 'testfirstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_CREATED);
+
+        $I->seeResponseContainsJson([
+            'lastname' => 'apitest lastname',
+        ]);
+
+        $I->canSeeInRepository(Student::class, ['lastname' => 'apitest lastname']);
+    }
+
+    public function testCreateFail(\ApiTester $I)
+    {
+        $I->wantToTest("The creation of and student and if fail");
+
+        //if last name is empty
+        $I->sendPost(
+            '/students',
+            [
+                'lastname' => '',
+                'firstname' => 'apitest firstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if last name is empty
+        $I->sendPost(
+            '/students',
+            [
+                'lastname' => 'apitest lastname',
+                'firstname' => '',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if last name is too short
+        $I->sendPost(
+            '/students',
+            [
+                'lastname' => 'a',
+                'firstname' => 'apitest firstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if  firstname is too short
+        $I->sendPost(
+            '/students',
+            [
+                'lastname' => 'api lastname',
+                'firstname' => 'z',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function updateStudentSuccess(\ApiTester $I)
+    {
+        $I->wantToTest("update a student and it success");
+        $I->sendPut(
+            'students/1',
+            [
+                'lastname' => 'apitest lastname',
+                'firstname' => 'testfirstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+        $I->seeResponseCodeIs(Response::HTTP_NO_CONTENT);
+
+        $I->canSeeInRepository(Student::class, ['lastname' => 'apitest lastname']);
+    }
+
+    public function updateStudentFail(\ApiTester $I)
+    {
+        $I->wantToTest("update a student and it fail");
+
+        //if last name is empty
+        $I->sendPut(
+            '/students/1',
+            [
+                'lastname' => '',
+                'firstname' => 'apitest firstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if last name is empty
+        $I->sendPut(
+            '/students/1',
+            [
+                'lastname' => 'apitest lastname',
+                'firstname' => '',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if last name is too short
+        $I->sendPut(
+            '/students/1',
+            [
+                'lastname' => 'a',
+                'firstname' => 'apitest firstname',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
+
+        //if  firstname is too short
+        $I->sendPut(
+            '/students/1',
+            [
+                'lastname' => 'api lastname',
+                'firstname' => 'z',
+                'birthday' => '1981-10-15',
+            ]
+        );
+
+
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_BAD_REQUEST);
     }
 }

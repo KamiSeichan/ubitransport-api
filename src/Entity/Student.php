@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
@@ -20,16 +21,20 @@ class Student
      * @ORM\Column(type="integer")
      * @Groups({"get_student"})
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Assert\Length(min=2)
      * @Groups({"get_student"})
      */
     private string $lastname;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Assert\Length(min=2)
      * @Groups({"get_student"})
      */
     private string $firstname;
@@ -65,7 +70,8 @@ class Student
     /**
      * Student constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->grades = new ArrayCollection();
     }
 

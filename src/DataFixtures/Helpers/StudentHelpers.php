@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\DataFixtures\Helpers;
 
-
 use App\Entity\Student;
 
 class StudentHelpers

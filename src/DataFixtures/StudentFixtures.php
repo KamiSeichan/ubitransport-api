@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-
 use App\DataFixtures\Helpers\StudentHelpers;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -25,7 +24,6 @@ class StudentFixtures extends Fixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $objectManager)
     {
-
         $student1 = $this->studentHelpers->createStudent('name1', 'firstname1', new \DateTimeImmutable('2000-09-01'));
         $student2 = $this->studentHelpers->createStudent('name2', 'firstname2', new \DateTimeImmutable('2000-10-01'));
 
@@ -45,5 +43,4 @@ class StudentFixtures extends Fixture implements OrderedFixtureInterface
     {
         return 1;
     }
-
 }
