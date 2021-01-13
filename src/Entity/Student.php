@@ -50,6 +50,13 @@ class Student
      * @Groups({"get_student"})
      */
     private Collection $grades;
+    /**
+     * @var float
+     * @Groups({"get_student_average"})
+     */
+    private float $averageGrade = 0.0;
+
+
 
     /**
      * @return ArrayCollection|Collection
@@ -138,5 +145,20 @@ class Student
         $this->birthdayDate = $birthdayDate;
 
         return $this;
+    }
+
+    public function getAverageGrades(): float
+    {
+        $count = 0;
+        $totalValues = 0.0;
+        foreach ($this->getGrades() as $grade) {
+            ++$count;
+            $totalValues += $grade->getValue();
+        }
+        if ($count > 0) {
+            $this->averageGrade = $totalValues / $count;
+        }
+
+        return $this->averageGrade;
     }
 }

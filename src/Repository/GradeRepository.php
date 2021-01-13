@@ -20,4 +20,12 @@ class GradeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Grade::class);
     }
+
+    public function averageGrades(): array
+    {
+        return $this->createQueryBuilder('g')
+            ->select('SUM(g.value) / COUNT(g.id) AS avg')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

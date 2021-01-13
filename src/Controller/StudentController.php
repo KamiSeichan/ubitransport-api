@@ -153,7 +153,7 @@ class StudentController extends AbstractController
 
     /**
      *
-     * @Route("/{id}/grade", name="item_student_rade_post", methods={"POST"})
+     * @Route("/{id}/grade", name="item_student_grade_post", methods={"POST"})
      *
      * @return JsonResponse
      */
@@ -187,6 +187,26 @@ class StudentController extends AbstractController
             ),
             JsonResponse::HTTP_CREATED,
             ["Location" => $urlGenerator->generate("api_student_collection_get")],
+            true
+        );
+    }
+
+    /**
+     *
+     * @Route("/{id}/average", name="item_student_average_get", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function getAverage(Student $student): JsonResponse
+    {
+        return new JsonResponse(
+            $this->serializer->serialize(
+                $student->getAverageGrades(),
+                "json",
+                ["groups" => "get_student_average"]
+            ),
+            JsonResponse::HTTP_OK,
+            [],
             true
         );
     }

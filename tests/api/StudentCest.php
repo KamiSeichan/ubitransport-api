@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Tests\api;
 
+use App\DataFixtures\GradeFixtures;
 use App\Entity\Grade;
 use App\Entity\Student;
 use Symfony\Component\HttpFoundation\Response;
@@ -203,5 +204,17 @@ class StudentCest
         ]);
 
         $I->canSeeInRepository(Grade::class, ['subject' => 'mathapitest', 'value' => '14']);
+    }
+
+    public function checkStudentAverage(\ApiTester $I)
+    {
+        $I->wantTo("check student average with datafixture");
+
+        $average = (GradeFixtures::GRADE_1 + GradeFixtures::GRADE_2) / 2;
+
+        $I->sendGET('/students/1/average');
+        $I->seeResponseIsJson();
+        $I->seeResponseCodeIs(Response::HTTP_OK);
+        $I->assertEquals($average, floatval($I->grabResponse()));
     }
 }
