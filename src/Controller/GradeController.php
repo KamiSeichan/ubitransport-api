@@ -11,10 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 
 /**
  *  @Route("/grades", name="api_grades_")
@@ -49,6 +48,12 @@ class GradeController extends AbstractController
     /**
      *
      * @Route("/average", name="average_get", methods={"GET"})
+     * @SWG\Tag(name="Grade")
+     * @SWG\Response(
+     *     response=200,
+     *     description="http ok"
+     * )
+     *
      * @return JsonResponse
      *
      */

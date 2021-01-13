@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 
 /**
  *  @Route("/students", name="api_student_")
@@ -49,6 +51,12 @@ class StudentController extends AbstractController
     /**
      *
      * @Route(name="collection_get", methods={"GET"})
+     * @SWG\Tag(name="Student")
+     * @SWG\Response(
+     *     response=200,
+     *     description="http ok"
+     * )
+     *
      * @return JsonResponse
      *
      */
@@ -69,6 +77,42 @@ class StudentController extends AbstractController
     /**
      *
      * @Route(name="item_post", methods={"POST"})
+     *
+     * @SWG\Tag(name="Student")
+     * @SWG\Parameter(
+     *     name="lastname",
+     *     description="Nom du nouvel élève",
+     *     in="query",
+     *     type="string",
+     *     required=true,
+     *     @Model(type="App\Entity\Student")
+     *
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="firstname",
+     *     description="Prénom du nouvel élève",
+     *     in="query",
+     *     type="string",
+     *     required=true
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="birthday",
+     *     description="Date d'anniversaire au format Y-m-d",
+     *     in="query",
+     *     type="string"
+     * )
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="http created"
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Bad request"
+     * )
      *
      * @param Request $request
      * @param UrlGeneratorInterface $urlGenerator
@@ -111,6 +155,41 @@ class StudentController extends AbstractController
      *
      * @Route("/{id}", name="item_put", methods={"PUT"})
      *
+     *
+     * @SWG\Tag(name="Student")
+     * @SWG\Parameter(
+     *     name="lastname",
+     *     description="Nom à modifier",
+     *     in="query",
+     *     type="string",
+     *
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="firstname",
+     *     description="Prénom à modifier",
+     *     in="query",
+     *     type="string",
+     *     required=true
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="birthday",
+     *     description="Date d'anniversaire au format Y-m-d à modifier",
+     *     in="query",
+     *     type="string"
+     * )
+     *
+     * @SWG\Response(
+     *     response=204,
+     *     description="no content"
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Bad request"
+     * )
+     *
      * @param Student $student
      * @param Request $request
      * @param ValidatorInterface $validator
@@ -140,7 +219,11 @@ class StudentController extends AbstractController
     /**
      *
      * @Route("/{id}", name="item_delete", methods={"DELETE"})
-     *
+     * @SWG\Tag(name="Student")
+     * @SWG\Response(
+     *     response=204,
+     *     description="no content"
+     * )
      * @param Student $student
      * @return JsonResponse
      */
@@ -154,6 +237,33 @@ class StudentController extends AbstractController
     /**
      *
      * @Route("/{id}/grade", name="item_student_grade_post", methods={"POST"})
+     * @SWG\Tag(name="Student")
+     * @SWG\Parameter(
+     *     name="subject",
+     *     description="Nom de la matière",
+     *     in="query",
+     *     type="string",
+     *     required=true
+     *
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="value",
+     *     description="Note de l'élève",
+     *     in="query",
+     *     type="number",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="http created"
+     * )
+     *
+     * @SWG\Response(
+     *     response=400,
+     *     description="Bad request"
+     * )
      *
      * @return JsonResponse
      */
@@ -194,6 +304,12 @@ class StudentController extends AbstractController
     /**
      *
      * @Route("/{id}/average", name="item_student_average_get", methods={"GET"})
+     *
+     * @SWG\Tag(name="Student")
+     * @SWG\Response(
+     *     response=200,
+     *     description="http ok"
+     * )
      *
      * @return JsonResponse
      */
