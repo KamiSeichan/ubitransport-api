@@ -84,8 +84,7 @@ class StudentController extends AbstractController
      *     description="Nom du nouvel élève",
      *     in="query",
      *     type="string",
-     *     required=true,
-     *     @Model(type="App\Entity\Student")
+     *     required=true
      *
      * )
      *
