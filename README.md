@@ -5,6 +5,7 @@ Environnement
 
 - php7.4
 - Symfony: 5.2
+- sqlite 3
 
 Installation
 
